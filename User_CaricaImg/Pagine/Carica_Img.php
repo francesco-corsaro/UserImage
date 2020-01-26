@@ -3,6 +3,7 @@ $target_dir = "Img_caricate/"; //Indica dove le immagini devono essere caricate
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]); /* specifica il percorso del file da caricare
                                                                          NB:nel form HTML il tag input=file
                                                                          deve avere Id e name = fileToUpload*/
+$baseName=basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;// è una variabile per indicare che il programma sta caricando il file
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); // contiene l'estensione del file
 // Check if image file is a actual image or fake image
@@ -18,7 +19,7 @@ if(isset($_POST["submit"])) {
 }
 // Check if file already exists
 if (file_exists($target_file)) {
-    echo "Sorry, file already exists. check2 <br>";
+    echo "Esiste già un file chiamato così. Rinomina il file per poterlo caricare. check2 <br>";
     $uploadOk = 0;
 }
 // Check file size
@@ -39,6 +40,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded. check4 <br>";
+            require 'backend/Database/Carica_proprietario.php';
         } else {
             echo "Sorry, there was an error uploading your file. check4 <br>";
         }
